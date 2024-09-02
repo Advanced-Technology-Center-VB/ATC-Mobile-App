@@ -1,4 +1,4 @@
-import 'package:atc_mobile_app/content/route_splash.dart';
+import 'package:atc_mobile_app/route/route_splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {

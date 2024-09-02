@@ -1,4 +1,4 @@
-import 'package:atc_mobile_app/content/route_main.dart';
+import 'package:atc_mobile_app/route/route_main.dart';
 import 'package:atc_mobile_app/view_models/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
