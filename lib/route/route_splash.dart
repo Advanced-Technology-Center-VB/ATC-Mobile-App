@@ -1,5 +1,10 @@
+import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/route/route_main.dart';
+import 'package:atc_mobile_app/services/api_dummy_service.dart';
+import 'package:atc_mobile_app/services/api_service.dart';
+import 'package:atc_mobile_app/view_models/class_view_model.dart';
 import 'package:atc_mobile_app/view_models/home_view_model.dart';
+import 'package:atc_mobile_app/view_models/programs_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -25,6 +30,8 @@ class _RouteSplashState extends State<RouteSplash> {
 
   _registerServices() {
      /// TODO register services
+     
+     getIt.registerSingleton<ApiServiceContract>(ApiService());
 
     setState(() {
       _preprocessProgress++;
@@ -33,6 +40,8 @@ class _RouteSplashState extends State<RouteSplash> {
 
   _registerViewModels() {
     getIt.registerSingleton<HomeViewModel>(HomeViewModel());
+    getIt.registerSingleton<ProgramsViewModel>(ProgramsViewModel());
+    getIt.registerSingleton<ClassViewModel>(ClassViewModel());
 
     setState(() {
       _preprocessProgress++;
