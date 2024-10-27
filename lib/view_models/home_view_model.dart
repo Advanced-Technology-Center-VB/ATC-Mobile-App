@@ -15,6 +15,10 @@ class HomeViewModel extends BaseModel {
 
   var api = GetIt.instance.get<ApiServiceContract>();
 
+  HomeViewModel() {
+    fetchData();
+  }
+
   Future<void> fetchData() async {
     isReady = false;
     error = false;
@@ -35,5 +39,7 @@ class HomeViewModel extends BaseModel {
       error = true;
       throw Exception(ex);
     }
+
+    notifyListeners();
   }
 }

@@ -29,20 +29,26 @@ class ProgramsViewModel extends BaseModel {
       return List<CategoryModel>.empty();
     });
 
-    syncClasses(0);
+    syncClasses(1);
   }
 
   Future<void> syncClasses(int mask) async {
     connectionError = false;
     syncingClasses = true;
 
+    notifyListeners();
+
     classes = await api.fetchClasses(mask).whenComplete(() {
       syncingClasses = false;
+
+      notifyListeners();
     }).catchError((err) {
       connectionError = true;
 
       return List<ClassModel>.empty();
     });
+
+    notifyListeners();
   }
 
   

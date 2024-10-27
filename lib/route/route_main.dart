@@ -15,6 +15,9 @@ class RouteMain extends StatefulWidget {
 
 class _RouteMainState extends State<RouteMain> {
   int navIndex = 0;
+
+  var controller = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,14 +31,19 @@ class _RouteMainState extends State<RouteMain> {
         onDestinationSelected: (value) => {
           setState(() {
             navIndex = value;
+            controller.animateToPage(value, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
           })
         }
       ),
-      body: <Widget>[
-        const DestinationHome(),
-        const DestinationPrograms(),
-        const Center()
-      ][navIndex],
+      body: PageView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: controller,
+        itemBuilder: (context, index) => const <Widget>[
+          DestinationHome(),
+          DestinationPrograms(),
+          Center()
+        ][index]
+      )
     );
   }
 }

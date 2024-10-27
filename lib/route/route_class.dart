@@ -84,28 +84,25 @@ class _RouteClassState extends State<RouteClass> {
                   const SizedBox(height: 16),
                   Text("Student thoughts", style: headerStyle),
                   const SizedBox(height: 16),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(0),
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: vm.testimonies.length,
-                      itemBuilder: (context, index) => Wrap(
-                        children: [
-                          Wrap(
-                            direction: Axis.horizontal,
-                            spacing: 6,
-                            children: [
-                              Text(vm.testimonies[index].studentName, style: textVariant),
-                              Text("•", style: textVariant,),
-                              Text("Enrolled for ${formatEnrollment(vm.testimonies[index].yearsAttended)}", style: textVariant,)
-                            ],
-                          ),
-                          Text(vm.testimonies[index].statement),
-                          Divider(thickness: 1, color: Theme.of(context).colorScheme.outlineVariant)
-                        ]),
-                      )
+                  ListView.separated(
+                    padding: const EdgeInsets.all(0),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: vm.testimonies.length,
+                    itemBuilder: (context, index) => Wrap(
+                      children: [
+                        Wrap(
+                          direction: Axis.horizontal,
+                          spacing: 6,
+                          children: [
+                            Text(vm.testimonies[index].studentName, style: textVariant),
+                            Text("•", style: textVariant,),
+                            Text("Enrolled for ${formatEnrollment(vm.testimonies[index].yearsAttended)}", style: textVariant,)
+                          ],
+                        ),
+                        Text(vm.testimonies[index].statement),
+                      ]),
+                      separatorBuilder: (_,__) => Divider(thickness: 1, color: Theme.of(context).colorScheme.outlineVariant),
                     )
                   ]
                 )

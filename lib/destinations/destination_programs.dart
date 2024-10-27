@@ -1,10 +1,8 @@
-import 'dart:collection';
 import 'dart:math';
 
 import 'package:atc_mobile_app/provider/base_view.dart';
 import 'package:atc_mobile_app/view_models/programs_view_model.dart';
 import 'package:atc_mobile_app/widgets/connection_error.dart';
-import 'package:atc_mobile_app/widgets/lazy_widget.dart';
 import 'package:atc_mobile_app/widgets/program_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +14,7 @@ class DestinationPrograms extends StatefulWidget {
 }
 
 class _DestinationProgramsState extends State<DestinationPrograms> {
-  var mask = 0;
+  var mask = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -24,71 +22,67 @@ class _DestinationProgramsState extends State<DestinationPrograms> {
       ProgramsViewModel vm = viewmodel as ProgramsViewModel;
 
       if (!vm.ready) {
+        if (vm.connectionError) {
+          return const ConnectionError();
+        }
+
         return const Center(
           child: CircularProgressIndicator(),
         );
       }
 
-      if (vm.connectionError) {
-        return const ConnectionError();
-      }
-
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text("Programs"),
-        ),
-        body: Padding(padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: LazyWidget(
-                  count: vm.categories.length, 
-                  builder: (index) => Wrap(
-                    children: [
-                      const SizedBox(width: 8, height: 0),
-                      FilterChip(
-                        label: Text(vm.categories[index].name),
-                        selected: mask >> index & 1 == 1, 
-                        onSelected: (v) async {  
-                          setState(() {
-                            mask = v ? mask + (pow(2, index) as int) : mask - (pow(2, index) as int);
-                          });
-
-                          await vm.syncClasses(mask);
-
-                          setState((){});
-                        }
-                      )
-                    ],
-                  )).getList()
-                ),
+      return SafeArea(
+        child: DefaultTabController(
+        length: vm.categories.length, 
+          child: NestedScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            headerSliverBuilder: (index, scrolled) => [
+              SliverAppBar(
+                centerTitle: true,
+                floating: true,
+                stretch: true,
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                title: const Text("Programs"),
               ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: vm.classes.map((model) {
-                  if (vm.syncingClasses)
-                  {
-                    return const CircularProgressIndicator();
-                  }
+              PinnedHeaderSliver(
+                child: Container(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: TabBar(
+                    onTap: (value) => {
+                      setState(() {
+                        vm.syncClasses(pow(2, value) as int);
+                      })
+                    },
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
+                    tabs: vm.categories.map((category) => Tab(
+                      text: category.name,
+                    )).toList()
+                  ),
+                )
+              )
+            ],
+            body: () {
+              if (vm.syncingClasses) {
+                return Center(child: !vm.connectionError ? const CircularProgressIndicator() : const ConnectionError());
+              }
 
-                  return Wrap(
-                    direction: Axis.vertical,
-                    spacing: 8,
-                    children: [
-                      ProgramWidget(classModel: model),
-                      const Divider(color: Color.fromARGB(255, 202, 196, 208), thickness: 1,)
-                    ],
+              return TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: vm.categories.map((category) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                    child: ListView.separated(
+                      physics: vm.syncingClasses ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
+                      itemCount: vm.classes.length,
+                      itemBuilder: (_,index) => Padding(padding: const EdgeInsets.symmetric(vertical: 4), child:  ProgramWidget(classModel: vm.classes[index])),
+                      separatorBuilder: (_,__) => Divider(thickness: 1, color: Theme.of(context).colorScheme.outlineVariant),
+                    ),
                   );
-                }).toList(),
-              ),
-            )
-          ],
-        ),
+                }).toList()
+              );
+            }.call()
+          )
         )
       );
     });

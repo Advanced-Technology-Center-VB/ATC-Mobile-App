@@ -19,13 +19,6 @@ class DestinationHome extends StatefulWidget {
 
 class _DestinationHomeState extends State<DestinationHome> {
   @override
-  void initState() {
-    super.initState();
-
-    GetIt.instance.get<HomeViewModel>().fetchData().whenComplete(() => setState((){}));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(builder: (context, viewModel, _) {
       HomeViewModel vm = viewModel as HomeViewModel;
