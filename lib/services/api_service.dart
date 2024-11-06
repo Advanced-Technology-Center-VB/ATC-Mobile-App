@@ -90,7 +90,14 @@ class ApiService extends ApiServiceContract {
       List<String> imageList = List.empty(growable: true);
 
       for (var i = 0; i < json.length; i++) {
-        imageList.add((json[i] as Map<String, String>).values.first);
+        String url = switch (json[i] as Map<String, dynamic>) {
+          {
+            'url' : String mapUrl,
+          } => mapUrl,
+          _ => throw Exception()
+        };
+
+        imageList.add(url);
       }
 
       return imageList;

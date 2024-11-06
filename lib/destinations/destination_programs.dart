@@ -14,7 +14,7 @@ class DestinationPrograms extends StatefulWidget {
 }
 
 class _DestinationProgramsState extends State<DestinationPrograms> {
-  var mask = 1;
+  var currentTab = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,14 @@ class _DestinationProgramsState extends State<DestinationPrograms> {
                 child: Container(
                   color: Theme.of(context).colorScheme.surface,
                   child: TabBar(
-                    onTap: (value) => {
+                    onTap: (value) {
+                      if (currentTab == value) return;
+
                       setState(() {
                         vm.syncClasses(pow(2, value) as int);
-                      })
+                      });
+
+                      currentTab = value;
                     },
                     isScrollable: true,
                     tabAlignment: TabAlignment.start,

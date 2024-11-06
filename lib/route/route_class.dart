@@ -43,7 +43,7 @@ class _RouteClassState extends State<RouteClass> {
     var vm = GetIt.instance.get<ClassViewModel>();
 
     vm.model = widget.classModel;
-    vm.fetchData().whenComplete(() => setState(() {}));
+    vm.fetchData();
   }
 
   @override

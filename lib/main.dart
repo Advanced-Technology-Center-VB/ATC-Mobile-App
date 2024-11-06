@@ -10,8 +10,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: RouteSplash(),
+    return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.light
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark
+      ),
+      themeMode: ThemeMode.system,
+      home: const RouteSplash(),
     );
   }
 }

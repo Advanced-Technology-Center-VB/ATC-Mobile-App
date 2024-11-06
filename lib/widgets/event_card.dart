@@ -15,25 +15,25 @@ class EventCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child:ListTile(
-                leading: Wrap(
-                  direction: Axis.vertical,
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
+              child: ListTile(
+                leading: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       model.startTimestamp.day.toString(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 22,
-                        height: 0.5,
-                        color: Colors.black
+                        height: 1,
+                        color: Theme.of(context).colorScheme.onSurface
                       ),
                     ),
                     Text(
                       DateFormat.MMM().format(model.startTimestamp).toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: 12
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant
                       )
                     ),
                   ],

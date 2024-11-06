@@ -57,7 +57,10 @@ class ApiDummyService extends ApiServiceContract {
   }
 
   @override
-  Future<List<EventModel>> fetchEvents() {
-    throw UnimplementedError();
+  Future<List<EventModel>> fetchEvents() async {
+    return [
+      EventModel(
+        "Test", DateTime.now().add(const Duration(minutes: 11)), "location", true, false, false, null, null, null, null)
+    ];
   }
 }

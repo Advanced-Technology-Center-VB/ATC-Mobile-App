@@ -1,11 +1,14 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
+import 'package:atc_mobile_app/contracts/notification_service_contract.dart';
 import 'package:atc_mobile_app/route/route_main.dart';
 import 'package:atc_mobile_app/services/api_dummy_service.dart';
 import 'package:atc_mobile_app/services/api_service.dart';
+import 'package:atc_mobile_app/services/notification_service.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
 import 'package:atc_mobile_app/view_models/home_view_model.dart';
 import 'package:atc_mobile_app/view_models/programs_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 
 /// This route describes the loading phase of the application.
@@ -26,12 +29,14 @@ class _RouteSplashState extends State<RouteSplash> {
   /// Number of preprocesses that must be completed to continue.
   static const _numPreprocesses = 2;
 
+  FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
+
   GetIt getIt = GetIt.instance;
 
   _registerServices() {
-     /// TODO register services
-     
      getIt.registerSingleton<ApiServiceContract>(ApiService());
+     //getIt.registerSingleton<ApiServiceContract>(ApiDummyService());
+     getIt.registerSingleton<NotificationServiceContract>(NotificationService());
 
     setState(() {
       _preprocessProgress++;
@@ -54,6 +59,8 @@ class _RouteSplashState extends State<RouteSplash> {
 
     _registerServices();
     _registerViewModels();
+
+    getIt.registerSingleton<FlutterLocalNotificationsPlugin>(notificationsPlugin);
   }
 
   @override

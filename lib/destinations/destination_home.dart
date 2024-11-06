@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:atc_mobile_app/contracts/notification_service_contract.dart';
 import 'package:atc_mobile_app/models/event_model.dart';
 import 'package:atc_mobile_app/provider/base_view.dart';
 import 'package:atc_mobile_app/view_models/home_view_model.dart';
@@ -129,7 +130,6 @@ class _DestinationHomeState extends State<DestinationHome> {
               const Text(
                 "Get Notified",
                 style: TextStyle(
-                  color: Colors.black,
                   fontSize: 22
                )
               ),
@@ -142,17 +142,18 @@ class _DestinationHomeState extends State<DestinationHome> {
                     children: [
                       Text(
                         model.startTimestamp.day.toString(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 22,
                           height: 1,
-                          color: Colors.black
+                          color: Theme.of(context).colorScheme.onSurface
                         ),
                       ),
                       Text(
                         DateFormat.MMM().format(model.startTimestamp).toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 12
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant
                         )
                       ),
                     ],
@@ -210,7 +211,11 @@ class _DestinationHomeState extends State<DestinationHome> {
                   children: [
                     FilledButton.icon(
                       onPressed: () {
+                        GetIt.instance.get<NotificationServiceContract>().scheduleEventNotification(model, mask);
 
+                        setState(() {
+                          Navigator.pop(context);
+                        });
                       },
                       icon: const Icon(Icons.add),
                       label: const Text("Enable notifications")
@@ -226,31 +231,75 @@ class _DestinationHomeState extends State<DestinationHome> {
 
   Widget _buildHeadlineWidget(EventModel model, Image cachedImage) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Text(model.title),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.add_alert_outlined),
-                onPressed: () => _showAlertAddModal(model),
-              )
-            ],
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(8),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate.fixed([
-                ClipRRect(
+      body: SafeArea(
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverAppBar(
+              title: Text(model.title),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.add_alert_outlined),
+                  onPressed: () => _showAlertAddModal(model),
+                )
+              ],
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(8),
+              sliver: SliverToBoxAdapter(
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: cachedImage
                 ),
-                const SizedBox(height: 8),
-                Text(model.summary ?? "")
-              ])
+              )
             ),
-          )
-        ],
+            PinnedHeaderSliver(
+              child: Container(
+                color: Theme.of(context).colorScheme.surface,
+                height: 40,
+                child: Flex(
+                  direction: Axis.horizontal,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      direction: Axis.horizontal,
+                      spacing: 4,
+                      children: [
+                        Icon(Icons.calendar_month_outlined, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        Text("${DateFormat.MMMd().format(model.startTimestamp)}, ${model.startTimestamp.year}", style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant))
+                      ],
+                    ),
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      direction: Axis.horizontal,
+                      spacing: 4,
+                      children: [
+                        Icon(Icons.schedule, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        Text(TimeOfDay.fromDateTime(model.startTimestamp).format(context), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant))
+                      ],
+                    ),
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      direction: Axis.horizontal,
+                      spacing: 4,
+                      children: [
+                        Icon(Icons.location_on_outlined, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        Text(model.location, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant))
+                      ],
+                    )
+                  ],
+                )
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(8),
+              sliver: SliverToBoxAdapter(
+                child: Text(model.summary ?? "Failed to load content."),
+              ),
+            )
+          ],
+      ),
       ),
     );
   }
