@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:atc_mobile_app/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -52,10 +54,10 @@ class EventCard extends StatelessWidget {
                 ),
               ), 
             ),
-            IconButton(
+            Platform.isAndroid ? IconButton(
                 onPressed: onAlertAdd, 
                 icon: const Icon(Icons.add_alert_outlined)
-            )
+            ) : const SizedBox.shrink()
           ],
       )
     );

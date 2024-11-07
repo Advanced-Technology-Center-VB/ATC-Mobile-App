@@ -43,3 +43,10 @@ app.*.map.json
 /android/app/release
 
 /.vscode
+ios/Podfile
+ios/Podfile.lock
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Release.xcconfig
+ios/Runner.xcodeproj/project.pbxproj
+ios/Runner.xcworkspace/contents.xcworkspacedata

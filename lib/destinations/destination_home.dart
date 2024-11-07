@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:atc_mobile_app/contracts/notification_service_contract.dart';
@@ -238,10 +239,10 @@ class _DestinationHomeState extends State<DestinationHome> {
             SliverAppBar(
               title: Text(model.title),
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.add_alert_outlined),
-                  onPressed: () => _showAlertAddModal(model),
-                )
+                Platform.isAndroid ? IconButton(
+                  onPressed: () => _showAlertAddModal(model), 
+                  icon: const Icon(Icons.add_alert_outlined)
+                ) : const SizedBox.shrink()
               ],
             ),
             SliverPadding(
