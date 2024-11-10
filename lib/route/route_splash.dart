@@ -4,6 +4,7 @@ import 'package:atc_mobile_app/route/route_main.dart';
 import 'package:atc_mobile_app/services/api_dummy_service.dart';
 import 'package:atc_mobile_app/services/api_service.dart';
 import 'package:atc_mobile_app/services/notification_service.dart';
+import 'package:atc_mobile_app/view_models/app_hub_view_model.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
 import 'package:atc_mobile_app/view_models/home_view_model.dart';
 import 'package:atc_mobile_app/view_models/programs_view_model.dart';
@@ -47,6 +48,7 @@ class _RouteSplashState extends State<RouteSplash> {
     getIt.registerSingleton<HomeViewModel>(HomeViewModel());
     getIt.registerSingleton<ProgramsViewModel>(ProgramsViewModel());
     getIt.registerSingleton<ClassViewModel>(ClassViewModel());
+    getIt.registerSingleton<AppHubViewModel>(AppHubViewModel());
 
     setState(() {
       _preprocessProgress++;

@@ -1,3 +1,5 @@
+// Home destination
+
 import 'dart:io';
 import 'dart:math';
 
@@ -216,6 +218,10 @@ class _DestinationHomeState extends State<DestinationHome> {
 
                         setState(() {
                           Navigator.pop(context);
+
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text("You will be notified at the chosen times!")
+                          ));
                         });
                       },
                       icon: const Icon(Icons.add),
