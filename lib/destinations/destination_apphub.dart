@@ -41,12 +41,10 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                 background: Image.network("http://files.nextiswhatwedo.org/atcapplynow.webp", fit: BoxFit.fitHeight),
               ),
             ),
-            PinnedHeaderSliver(
-              child: SafeArea(
-                minimum: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Flex(
+            SliverPadding(
+              padding: const EdgeInsets.all(16),
+              sliver: SliverToBoxAdapter(
+                child: Flex(
                     direction: Axis.horizontal,
                     children: [
                       const Text("ATC Application Deadline"),
@@ -62,9 +60,8 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                         )),
                       )
                     ],  
-                  ),
-                )
-              ),
+                  )
+                ),
             ),
             const SliverPadding(
               padding: EdgeInsets.all(16),
