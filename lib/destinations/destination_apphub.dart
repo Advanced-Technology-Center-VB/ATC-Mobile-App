@@ -77,7 +77,20 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                 trailing: const Icon(Icons.arrow_right),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 enableFeedback: true,
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RouteClass(classModel: vm.models![i]))),
+                onTap: () async {
+                  var shouldRefresh = await Navigator.push<bool>(
+                    context, 
+                    MaterialPageRoute(
+                      builder: (_) => RouteClass(classModel: vm.models![i])
+                    )
+                  );
+
+                  if (shouldRefresh ?? true) {
+                    setState(() {
+                      
+                    });
+                  }
+                },
               ),
             ),
           ],

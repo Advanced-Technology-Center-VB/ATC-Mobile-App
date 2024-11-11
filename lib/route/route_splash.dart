@@ -1,9 +1,11 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/contracts/notification_service_contract.dart';
+import 'package:atc_mobile_app/contracts/wishlist_service_contract.dart';
 import 'package:atc_mobile_app/route/route_main.dart';
 import 'package:atc_mobile_app/services/api_dummy_service.dart';
 import 'package:atc_mobile_app/services/api_service.dart';
 import 'package:atc_mobile_app/services/notification_service.dart';
+import 'package:atc_mobile_app/services/wishlist_service.dart';
 import 'package:atc_mobile_app/view_models/app_hub_view_model.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
 import 'package:atc_mobile_app/view_models/home_view_model.dart';
@@ -38,6 +40,7 @@ class _RouteSplashState extends State<RouteSplash> {
      getIt.registerSingleton<ApiServiceContract>(ApiService());
      //getIt.registerSingleton<ApiServiceContract>(ApiDummyService());
      getIt.registerSingleton<NotificationServiceContract>(NotificationService());
+     getIt.registerSingleton<WishlistServiceContract>(WishlistService());
 
     setState(() {
       _preprocessProgress++;

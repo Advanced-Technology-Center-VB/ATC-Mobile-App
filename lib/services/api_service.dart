@@ -13,11 +13,9 @@ class ApiService extends ApiServiceContract {
     final response = await http.get(Uri.parse("https://api.nextiswhatwedo.org/api/class?id=${id}"));
 
     if (response.statusCode == 200) {
-      var map = jsonDecode(response.body) as Map<String, dynamic>;
+      var map = jsonDecode(response.body) as List<dynamic>;
 
-      map.addAll({"id": id});
-
-      return ClassModel.fromJson(map);
+      return ClassModel.fromJson(map.first);
     } else {
       throw Exception("Failed to load class.");
     }

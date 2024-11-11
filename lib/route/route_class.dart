@@ -1,6 +1,8 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
+import 'package:atc_mobile_app/contracts/wishlist_service_contract.dart';
 import 'package:atc_mobile_app/models/class_model.dart';
 import 'package:atc_mobile_app/provider/base_view.dart';
+import 'package:atc_mobile_app/services/wishlist_service.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
 import 'package:atc_mobile_app/widgets/connection_error.dart';
 import 'package:atc_mobile_app/widgets/image_carousel.dart';
@@ -26,7 +28,7 @@ class _RouteClassState extends State<RouteClass> {
     fontSize: 22
   );
 
-  String formatEnrollment(int yearsEnrolled) {
+  String _formatEnrollment(int yearsEnrolled) {
     var suffix = "year";
 
     if (yearsEnrolled > 1) {
@@ -43,7 +45,19 @@ class _RouteClassState extends State<RouteClass> {
     var vm = GetIt.instance.get<ClassViewModel>();
 
     vm.model = widget.classModel;
+    vm.inWishlist = vm.wishlist.where((model) => model.id == widget.classModel.id).isNotEmpty;
+
     vm.fetchData();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+
+    var vm = GetIt.instance.get<ClassViewModel>();
+    var wishlistService = GetIt.instance.get<WishlistServiceContract>();
+
+    wishlistService.writeWishlist(vm.wishlist);    
   }
 
   @override
@@ -54,6 +68,21 @@ class _RouteClassState extends State<RouteClass> {
       var textVariant = TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant);
       
       return Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            setState(() {
+              if (vm.inWishlist) {
+                vm.wishlist.removeWhere((model) => model.id == widget.classModel.id);
+                vm.inWishlist = false;
+              } else {
+                vm.wishlist.add(widget.classModel);
+                vm.inWishlist = true;
+              }
+            });
+          }, 
+          label: Text(vm.inWishlist ? "Remove from wishlist" : "Add to wishlist"),
+          icon: Icon(vm.inWishlist ? Icons.remove : Icons.edit),
+        ),
         body: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
@@ -61,7 +90,13 @@ class _RouteClassState extends State<RouteClass> {
               stretch: _stretch,
               stretchTriggerOffset: 300.0,
               expandedHeight: 150.0,
-              title: Text(widget.classModel.name)
+              title: Text(widget.classModel.name),
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                }, 
+                icon: const Icon(Icons.arrow_back)
+              ),
             ),
             SliverPadding(
               padding: const EdgeInsets.all(16),
@@ -97,7 +132,7 @@ class _RouteClassState extends State<RouteClass> {
                           children: [
                             Text(vm.testimonies[index].studentName, style: textVariant),
                             Text("•", style: textVariant,),
-                            Text("Enrolled for ${formatEnrollment(vm.testimonies[index].yearsAttended)}", style: textVariant,)
+                            Text("Enrolled for ${_formatEnrollment(vm.testimonies[index].yearsAttended)}", style: textVariant,)
                           ],
                         ),
                         Text(vm.testimonies[index].statement),
