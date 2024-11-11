@@ -69,7 +69,7 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                 fontSize: 24
               ))), // Use SliverToBoxAdapter to use add a normal widget.
             ),
-            SliverList.builder(
+            vm.models!.isNotEmpty ? SliverList.builder(
               itemCount: vm.models?.length ?? 0,
               itemBuilder: (_, i) => ListTile(
                 title: Text(vm.models![i].name),
@@ -92,7 +92,17 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                   }
                 },
               ),
-            ),
+            ): SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverToBoxAdapter(
+                child: Text(
+                  "Navigate to a program and select \"Add to wishlist\" and it will appear here.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  softWrap: true
+                ) 
+              )     
+            )
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(

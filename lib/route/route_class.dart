@@ -143,6 +143,9 @@ class _RouteClassState extends State<RouteClass> {
                 )
               ),
             ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 100),
+            )
           ]
         ),
       );

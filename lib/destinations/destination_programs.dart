@@ -5,6 +5,7 @@ import 'package:atc_mobile_app/view_models/programs_view_model.dart';
 import 'package:atc_mobile_app/widgets/connection_error.dart';
 import 'package:atc_mobile_app/widgets/program_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class DestinationPrograms extends StatefulWidget {
   const DestinationPrograms({super.key});
@@ -15,6 +16,13 @@ class DestinationPrograms extends StatefulWidget {
 
 class _DestinationProgramsState extends State<DestinationPrograms> {
   var currentTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    GetIt.instance.get<ProgramsViewModel>().syncClasses(1);
+  }
 
   @override
   Widget build(BuildContext context) {

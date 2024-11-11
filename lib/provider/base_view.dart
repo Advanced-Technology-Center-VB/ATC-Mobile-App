@@ -14,15 +14,11 @@ class BaseView<T extends BaseModel> extends StatefulWidget {
 
   const BaseView({required this.builder, super.key});
 
-  @override State<StatefulWidget> createState() => _BaseViewState<T>(builder);
+  @override State<StatefulWidget> createState() => _BaseViewState<T>();
 }
 
 class _BaseViewState<T extends BaseModel> extends State<BaseView> {
   late T viewModel; /// Get the viewmodel
-  final BuilderCallback builderCallback;
-
-
-  _BaseViewState(this.builderCallback);
 
   @override
   void initState() {
@@ -36,7 +32,7 @@ class _BaseViewState<T extends BaseModel> extends State<BaseView> {
     return ChangeNotifierProvider(
       create: (context) => viewModel,
       child: Consumer<T>(
-        builder: builderCallback
+        builder: widget.builder
         ),
       );
   }
