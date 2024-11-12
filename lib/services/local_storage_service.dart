@@ -1,11 +1,11 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
-import 'package:atc_mobile_app/contracts/wishlist_service_contract.dart';
+import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
 import 'package:atc_mobile_app/models/class_model.dart';
 import 'package:atc_mobile_app/services/api_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class WishlistService extends WishlistServiceContract {
+class LocalStorageService extends LocalStorageServiceContract {
 
   @override
   Future<List<ClassModel>> getWishlist() async {
@@ -49,5 +49,19 @@ class WishlistService extends WishlistServiceContract {
     }
 
     return result;
+  }
+  
+  @override
+  Future<int> getApplicationChecklist() async {
+    var prefs = await SharedPreferences.getInstance();
+    
+    return prefs.getInt("appChecklist") ?? 0;
+  }
+  
+  @override
+  Future<void> writeApplicationChecklist(int mask) async {
+    var prefs = await SharedPreferences.getInstance();
+
+    prefs.setInt("appChecklist", mask);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
-import 'package:atc_mobile_app/contracts/wishlist_service_contract.dart';
+import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
 import 'package:atc_mobile_app/models/class_model.dart';
 import 'package:atc_mobile_app/models/information_model.dart';
 import 'package:atc_mobile_app/provider/base_model.dart';
@@ -10,6 +10,8 @@ class AppHubViewModel extends BaseModel {
   var countdownText = "";
   List<ClassModel>? models; 
   InformationModel? info;
+
+  int checklistMask = 0;
 
   bool ready = false; // This value is is affected when fetchData() is called. It becomes false starting execution, and is flipped to true when the function completes.
 

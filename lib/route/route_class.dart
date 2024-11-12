@@ -1,8 +1,8 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
-import 'package:atc_mobile_app/contracts/wishlist_service_contract.dart';
+import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
 import 'package:atc_mobile_app/models/class_model.dart';
 import 'package:atc_mobile_app/provider/base_view.dart';
-import 'package:atc_mobile_app/services/wishlist_service.dart';
+import 'package:atc_mobile_app/services/local_storage_service.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
 import 'package:atc_mobile_app/widgets/connection_error.dart';
 import 'package:atc_mobile_app/widgets/image_carousel.dart';
@@ -55,7 +55,7 @@ class _RouteClassState extends State<RouteClass> {
     super.deactivate();
 
     var vm = GetIt.instance.get<ClassViewModel>();
-    var wishlistService = GetIt.instance.get<WishlistServiceContract>();
+    var wishlistService = GetIt.instance.get<LocalStorageServiceContract>();
 
     wishlistService.writeWishlist(vm.wishlist);    
   }

@@ -1,5 +1,5 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
-import 'package:atc_mobile_app/contracts/wishlist_service_contract.dart';
+import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
 import 'package:atc_mobile_app/models/class_model.dart';
 import 'package:atc_mobile_app/models/testimony_model.dart';
 import 'package:atc_mobile_app/provider/base_model.dart';
@@ -61,7 +61,7 @@ class ClassViewModel extends BaseModel {
   }
 
   Future<void> fetchWishlist() async {
-    var service = GetIt.instance.get<WishlistServiceContract>();
+    var service = GetIt.instance.get<LocalStorageServiceContract>();
 
     var serviceList = await service.getWishlist();
 
