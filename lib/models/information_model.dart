@@ -13,8 +13,8 @@ class InformationModel {
         "application_late_deadline": int applicationLateDeadline
       } => InformationModel(
         applicationUrl, 
-        DateTime.fromMillisecondsSinceEpoch(applicationDeadline * 1000), 
-        DateTime.fromMillisecondsSinceEpoch(applicationLateDeadline * 1000)
+        DateTime.fromMillisecondsSinceEpoch(applicationDeadline * 1000).toUtc(), 
+        DateTime.fromMillisecondsSinceEpoch(applicationLateDeadline * 1000).toUtc()
       ),
       _ => throw Exception("Cannot load information data.")
     };

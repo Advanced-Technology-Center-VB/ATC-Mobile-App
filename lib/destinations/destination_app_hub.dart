@@ -3,6 +3,7 @@ import 'package:atc_mobile_app/route/route_class.dart';
 import 'package:atc_mobile_app/view_models/app_hub_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DestinationAppHub extends StatefulWidget {
@@ -50,15 +51,44 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                     children: [
                       const Text("ATC Application Deadline"),
                       const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Theme.of(context).colorScheme.secondary
+                      InkWell(
+                        onTap: () => {
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              icon: const Icon(Icons.alarm),
+                              title: const Text("ATC Application Deadline"),
+                              actions: [
+                                TextButton(onPressed: () => setState(() {
+                                  Navigator.pop(context);
+                                }), child: const Text("OK"))
+                              ],
+                              content: Container(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text("Application deadline: ${DateFormat.MMMd().format(vm.info!.applicationDeadline)}, ${vm.info!.applicationDeadline.year.toString()} at ${DateFormat.Hm().format(vm.info!.applicationDeadline)}",
+                                      softWrap: true
+                                    ),
+                                    Text("Late application deadline: ${DateFormat.MMMd().format(vm.info!.applicationLateDeadline)}, ${vm.info!.applicationLateDeadline.year.toString()} at ${DateFormat.Hm().format(vm.info!.applicationLateDeadline)}",
+                                      softWrap: true,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            )
+                          )
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: Theme.of(context).colorScheme.secondary
+                          ),
+                          child: Text(vm.countdownText, style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary
+                          )),
                         ),
-                        child: Text(vm.countdownText, style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary
-                        )),
                       )
                     ],  
                   )
@@ -108,7 +138,7 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            await launchUrl(Uri.parse("https://atcapplication.vbcps.com"));
+            await launchUrl(Uri.parse(vm.info!.applicationUrl));
           },
           label: const Text("Apply now"),
           icon: const Icon(Icons.edit),

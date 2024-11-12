@@ -2,6 +2,7 @@ import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/models/category_model.dart';
 import 'package:atc_mobile_app/models/class_model.dart';
 import 'package:atc_mobile_app/models/event_model.dart';
+import 'package:atc_mobile_app/models/information_model.dart';
 import 'package:atc_mobile_app/models/testimony_model.dart';
 
 class ApiDummyService extends ApiServiceContract {
@@ -62,5 +63,11 @@ class ApiDummyService extends ApiServiceContract {
       EventModel(
         "Test", DateTime.now().add(const Duration(minutes: 11)), "location", true, false, false, null, null, null, null)
     ];
+  }
+
+  @override
+  Future<InformationModel> fetchAtcInformation() {
+    // TODO: implement fetchAtcInformation
+    throw UnimplementedError();
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:atc_mobile_app/provider/base_view.dart';
+import 'package:atc_mobile_app/route/route_class.dart';
 import 'package:atc_mobile_app/view_models/programs_view_model.dart';
 import 'package:atc_mobile_app/widgets/connection_error.dart';
 import 'package:atc_mobile_app/widgets/program_widget.dart';
@@ -81,17 +82,16 @@ class _DestinationProgramsState extends State<DestinationPrograms> {
 
               return TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
-                children: vm.categories.map((category) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                    child: ListView.separated(
-                      physics: vm.syncingClasses ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
-                      itemCount: vm.classes.length,
-                      itemBuilder: (_,index) => Padding(padding: const EdgeInsets.symmetric(vertical: 4), child:  ProgramWidget(classModel: vm.classes[index])),
-                      separatorBuilder: (_,__) => Divider(thickness: 1, color: Theme.of(context).colorScheme.outlineVariant),
-                    ),
-                  );
-                }).toList()
+                children: vm.categories.map((category) => ListView.builder(
+                  physics: vm.syncingClasses ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
+                  itemCount: vm.classes.length,
+                  itemBuilder: (context,index) => ListTile(
+                      title: Text(vm.classes[index].name),
+                      trailing: const Icon(Icons.arrow_right),
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => RouteClass(classModel: vm.classes[index]))),
+                    )
+                  ),
+                ).toList()
               );
             }.call()
           )

@@ -1,4 +1,4 @@
-import 'package:atc_mobile_app/destinations/destination_apphub.dart';
+import 'package:atc_mobile_app/destinations/destination_app_hub.dart';
 import 'package:atc_mobile_app/destinations/destination_home.dart';
 import 'package:atc_mobile_app/destinations/destination_programs.dart';
 import 'package:flutter/material.dart';
