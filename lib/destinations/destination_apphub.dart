@@ -3,6 +3,7 @@ import 'package:atc_mobile_app/route/route_class.dart';
 import 'package:atc_mobile_app/view_models/app_hub_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DestinationAppHub extends StatefulWidget {
   const DestinationAppHub({super.key});
@@ -87,7 +88,7 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
 
                   if (shouldRefresh ?? true) {
                     setState(() {
-                      
+                      // Just refresh the state to update the wishlist
                     });
                   }
                 },
@@ -106,7 +107,9 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () async {
+            await launchUrl(Uri.parse("https://atcapplication.vbcps.com"));
+          },
           label: const Text("Apply now"),
           icon: const Icon(Icons.edit),
         ),

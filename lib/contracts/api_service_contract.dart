@@ -1,6 +1,7 @@
 import 'package:atc_mobile_app/models/category_model.dart';
 import 'package:atc_mobile_app/models/class_model.dart';
 import 'package:atc_mobile_app/models/event_model.dart';
+import 'package:atc_mobile_app/models/information_model.dart';
 import 'package:atc_mobile_app/models/testimony_model.dart';
 
 abstract class ApiServiceContract {
@@ -16,4 +17,6 @@ abstract class ApiServiceContract {
   Future<List<String>> fetchImages(int classId);
   ///Get events that are current.
   Future<List<EventModel>> fetchEvents();
+  //Get non-database information.
+  Future<InformationModel> fetchAtcInformation();
 }

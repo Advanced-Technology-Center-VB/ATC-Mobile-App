@@ -37,10 +37,10 @@ class _RouteSplashState extends State<RouteSplash> {
   GetIt getIt = GetIt.instance;
 
   _registerServices() {
-     getIt.registerSingleton<ApiServiceContract>(ApiService());
-     //getIt.registerSingleton<ApiServiceContract>(ApiDummyService());
-     getIt.registerSingleton<NotificationServiceContract>(NotificationService());
-     getIt.registerSingleton<WishlistServiceContract>(WishlistService());
+    getIt.registerSingleton<ApiServiceContract>(ApiService());
+    //getIt.registerSingleton<ApiServiceContract>(ApiDummyService());
+    getIt.registerSingleton<NotificationServiceContract>(NotificationService());
+    getIt.registerSingleton<WishlistServiceContract>(WishlistService());
 
     setState(() {
       _preprocessProgress++;

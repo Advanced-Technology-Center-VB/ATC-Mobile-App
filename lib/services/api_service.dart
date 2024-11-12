@@ -4,6 +4,7 @@ import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/models/category_model.dart';
 import 'package:atc_mobile_app/models/class_model.dart';
 import 'package:atc_mobile_app/models/event_model.dart';
+import 'package:atc_mobile_app/models/information_model.dart';
 import 'package:atc_mobile_app/models/testimony_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -118,6 +119,19 @@ class ApiService extends ApiServiceContract {
       }
 
       return eventList;
+    } else {
+      throw Exception("Failed to load events.");
+    }
+  }
+
+  @override
+  Future<InformationModel> fetchAtcInformation() async {
+    final response = await http.get(Uri.parse("https://api.nextiswhatwedo.org/atcinformation.json"));
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+
+      return InformationModel.fromJson(json);
     } else {
       throw Exception("Failed to load events.");
     }
