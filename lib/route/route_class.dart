@@ -71,13 +71,21 @@ class _RouteClassState extends State<RouteClass> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             setState(() {
+              String message;
+
               if (vm.inWishlist) {
                 vm.wishlist.removeWhere((model) => model.id == widget.classModel.id);
                 vm.inWishlist = false;
+
+                message = "Removed ${widget.classModel.name} from your wishlist!";
               } else {
                 vm.wishlist.add(widget.classModel);
                 vm.inWishlist = true;
+
+                message = "Added ${widget.classModel.name} to your wishlist!";
               }
+
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
             });
           }, 
           label: Text(vm.inWishlist ? "Remove from wishlist" : "Add to wishlist"),
