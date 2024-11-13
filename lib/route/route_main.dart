@@ -39,7 +39,7 @@ class _RouteMainState extends State<RouteMain> {
       body: PageView.builder(
         physics: const NeverScrollableScrollPhysics(),
         controller: controller,
-        itemBuilder: (context, index) => const <Widget>[
+        itemBuilder: (context, index) => const <Widget>[ //This is where pages are defined.
           DestinationHome(),
           DestinationPrograms(),
           DestinationAppHub()

@@ -4,7 +4,6 @@ import 'package:atc_mobile_app/provider/base_view.dart';
 import 'package:atc_mobile_app/route/route_class.dart';
 import 'package:atc_mobile_app/view_models/programs_view_model.dart';
 import 'package:atc_mobile_app/widgets/connection_error.dart';
-import 'package:atc_mobile_app/widgets/program_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -22,7 +21,7 @@ class _DestinationProgramsState extends State<DestinationPrograms> {
   void initState() {
     super.initState();
 
-    GetIt.instance.get<ProgramsViewModel>().syncClasses(1);
+    GetIt.instance.get<ProgramsViewModel>().syncClasses(1); //Refresh the classes back to the first tab when this destination is navigated to.
   }
 
   @override
@@ -30,6 +29,8 @@ class _DestinationProgramsState extends State<DestinationPrograms> {
     return BaseView<ProgramsViewModel>(builder: (context, viewmodel, _) {
       ProgramsViewModel vm = viewmodel as ProgramsViewModel;
 
+
+      //Check if the vm is ready or if there was an error.
       if (!vm.ready) {
         if (vm.connectionError) {
           return const ConnectionError();
@@ -61,7 +62,7 @@ class _DestinationProgramsState extends State<DestinationPrograms> {
                       if (currentTab == value) return;
 
                       setState(() {
-                        vm.syncClasses(pow(2, value) as int);
+                        vm.syncClasses(pow(2, value) as int); //The API serves classes based on a mask. 
                       });
 
                       currentTab = value;
@@ -76,7 +77,7 @@ class _DestinationProgramsState extends State<DestinationPrograms> {
               )
             ],
             body: () {
-              if (vm.syncingClasses) {
+              if (vm.syncingClasses) { //Display progress indicator when classes are still syncing.
                 return Center(child: !vm.connectionError ? const CircularProgressIndicator() : const ConnectionError());
               }
 
@@ -85,7 +86,7 @@ class _DestinationProgramsState extends State<DestinationPrograms> {
                 children: vm.categories.map((category) => ListView.builder(
                   physics: vm.syncingClasses ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
                   itemCount: vm.classes.length,
-                  itemBuilder: (context,index) => ListTile(
+                  itemBuilder: (context,index) => ListTile( //This is the actual widget that is recursively displayed.
                       title: Text(vm.classes[index].name),
                       trailing: const Icon(Icons.arrow_right),
                       onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => RouteClass(classModel: vm.classes[index]))),

@@ -1,28 +1,29 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
-import 'package:atc_mobile_app/models/class_model.dart';
+import 'package:atc_mobile_app/models/program_model.dart';
 import 'package:atc_mobile_app/models/testimony_model.dart';
 import 'package:atc_mobile_app/provider/base_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-class ClassViewModel extends BaseModel {
+//TODO: This whole system needs to be reworked, but it is not a priority. 
+class ProgramViewModel extends BaseModel {
   bool ready = false;
   bool error = false;
 
   bool loadingImages = true;
   bool inWishlist = false;
 
-  late ClassModel model;
+  late ProgramModel model;
 
-  List<ClassModel> wishlist = List<ClassModel>.empty(growable: true);
+  List<ProgramModel> wishlist = List<ProgramModel>.empty(growable: true);
 
   List<TestimonyModel> testimonies = List.empty();
   List<Image> images = List.empty();
 
   ApiServiceContract api = GetIt.instance.get<ApiServiceContract>();
 
-  ClassViewModel() {
+  ProgramViewModel() {
     fetchWishlist().whenComplete(() => notifyListeners());
   }
 
@@ -65,7 +66,7 @@ class ClassViewModel extends BaseModel {
 
     var serviceList = await service.getWishlist();
 
-    wishlist = List<ClassModel>.generate(serviceList.length, (_) => ClassModel(id: 0, name: ""));
+    wishlist = List<ProgramModel>.generate(serviceList.length, (_) => ProgramModel(id: 0, name: ""));
     List.copyRange(wishlist, 0, serviceList);
   }
 }

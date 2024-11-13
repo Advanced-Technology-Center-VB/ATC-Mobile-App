@@ -1,17 +1,13 @@
-import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
-import 'package:atc_mobile_app/models/class_model.dart';
+import 'package:atc_mobile_app/models/program_model.dart';
 import 'package:atc_mobile_app/provider/base_view.dart';
-import 'package:atc_mobile_app/services/local_storage_service.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
-import 'package:atc_mobile_app/widgets/connection_error.dart';
 import 'package:atc_mobile_app/widgets/image_carousel.dart';
-import 'package:atc_mobile_app/widgets/lazy_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class RouteClass extends StatefulWidget {
-  final ClassModel classModel;
+  final ProgramModel classModel;
 
   const RouteClass({super.key, required this.classModel});
 
@@ -42,7 +38,7 @@ class _RouteClassState extends State<RouteClass> {
   void initState() {
     super.initState();
 
-    var vm = GetIt.instance.get<ClassViewModel>();
+    var vm = GetIt.instance.get<ProgramViewModel>();
 
     vm.model = widget.classModel;
     vm.inWishlist = vm.wishlist.where((model) => model.id == widget.classModel.id).isNotEmpty;
@@ -54,7 +50,7 @@ class _RouteClassState extends State<RouteClass> {
   void deactivate() {
     super.deactivate();
 
-    var vm = GetIt.instance.get<ClassViewModel>();
+    var vm = GetIt.instance.get<ProgramViewModel>();
     var wishlistService = GetIt.instance.get<LocalStorageServiceContract>();
 
     wishlistService.writeWishlist(vm.wishlist);    
@@ -62,14 +58,14 @@ class _RouteClassState extends State<RouteClass> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<ClassViewModel>(builder: (context, viewModel, _) {
-      ClassViewModel vm = viewModel as ClassViewModel;
+    return BaseView<ProgramViewModel>(builder: (context, viewModel, _) {
+      ProgramViewModel vm = viewModel as ProgramViewModel;
 
       var textVariant = TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant);
       
       return Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
+          onPressed: () { //This button controls adding and removing a program from the wishlist.
             setState(() {
               String message;
 
@@ -151,7 +147,7 @@ class _RouteClassState extends State<RouteClass> {
                 )
               ),
             ),
-            const SliverToBoxAdapter(
+            const SliverToBoxAdapter( //This is a spacer for the bottom of the page so the FAB doesn't cover content.
               child: SizedBox(height: 100),
             )
           ]

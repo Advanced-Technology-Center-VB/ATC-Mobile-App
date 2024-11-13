@@ -1,6 +1,5 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/models/event_model.dart';
-import 'package:atc_mobile_app/models/headline_model.dart';
 import 'package:atc_mobile_app/provider/base_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -28,7 +27,7 @@ class HomeViewModel extends BaseModel {
 
       for (var event in events.where((event) => event.isHeadline)) {
         headlineImageCache.add(Image.memory(
-          await readBytes(Uri.parse(event.imageUrl ?? "")), 
+          await readBytes(Uri.parse(event.imageUrl ?? "")),
           fit: BoxFit.cover,
         ));
       }

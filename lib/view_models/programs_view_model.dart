@@ -1,6 +1,6 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/models/category_model.dart';
-import 'package:atc_mobile_app/models/class_model.dart';
+import 'package:atc_mobile_app/models/program_model.dart';
 import 'package:atc_mobile_app/provider/base_model.dart';
 import 'package:get_it/get_it.dart';
 
@@ -8,7 +8,7 @@ class ProgramsViewModel extends BaseModel {
   late String className;
 
   List<CategoryModel> categories = List.empty();
-  List<ClassModel> classes = List.empty();
+  List<ProgramModel> classes = List.empty();
 
   var api = GetIt.instance.get<ApiServiceContract>();
 
@@ -45,7 +45,7 @@ class ProgramsViewModel extends BaseModel {
     }).catchError((err) {
       connectionError = true;
 
-      return List<ClassModel>.empty();
+      return List<ProgramModel>.empty();
     });
 
     notifyListeners();

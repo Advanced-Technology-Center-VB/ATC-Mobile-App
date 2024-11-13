@@ -1,10 +1,14 @@
-import 'package:atc_mobile_app/models/class_model.dart';
+import 'package:atc_mobile_app/models/program_model.dart';
 
 ///This service handles storage for classes in the wishlist
 abstract class LocalStorageServiceContract {
-  Future<void> writeWishlist(List<ClassModel> wishlist);
-  Future<List<ClassModel>> getWishlist();
+  ///Write wishlist data to storage.
+  Future<void> writeWishlist(List<ProgramModel> wishlist);
+  ///Get wishlist data from storage.
+  Future<List<ProgramModel>> getWishlist();
   
+  ///Write checklist data to storage.
   Future<void> writeApplicationChecklist(int mask);
+  ///Get checklist data from storage.
   Future<int> getApplicationChecklist();
 }

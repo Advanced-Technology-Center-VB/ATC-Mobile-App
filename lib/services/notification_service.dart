@@ -7,8 +7,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-import 'package:humanizer/humanizer.dart';
-
+///This service handles sending notifications to the device.
+///All this code is pretty self explanatory, just refer to the docs: https://pub.dev/packages/flutter_local_notifications
 class NotificationService extends NotificationServiceContract {
   var plugin = FlutterLocalNotificationsPlugin();
 

@@ -1,4 +1,3 @@
-/// This is for events on the home page.
 class EventModel {
   final String title;
   final DateTime startTimestamp;

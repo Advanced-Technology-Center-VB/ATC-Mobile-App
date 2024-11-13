@@ -1,6 +1,5 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
-import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
-import 'package:atc_mobile_app/models/class_model.dart';
+import 'package:atc_mobile_app/models/program_model.dart';
 import 'package:atc_mobile_app/models/information_model.dart';
 import 'package:atc_mobile_app/provider/base_model.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
@@ -8,7 +7,7 @@ import 'package:get_it/get_it.dart';
 
 class AppHubViewModel extends BaseModel {
   var countdownText = "";
-  List<ClassModel>? models; 
+  List<ProgramModel>? models; 
   InformationModel? info;
 
   int checklistMask = 0;
@@ -16,7 +15,7 @@ class AppHubViewModel extends BaseModel {
   bool ready = false; // This value is is affected when fetchData() is called. It becomes false starting execution, and is flipped to true when the function completes.
 
   void fetchData() async {
-    var classViewModel = GetIt.instance.get<ClassViewModel>();
+    var classViewModel = GetIt.instance.get<ProgramViewModel>();
     var api = GetIt.instance.get<ApiServiceContract>();
 
     ready = false;
@@ -24,7 +23,9 @@ class AppHubViewModel extends BaseModel {
 
     info = await api.fetchAtcInformation();
 
-    countdownText = "${info!.applicationDeadline.difference(DateTime.now()).inDays} days";
+    int countdown = info!.applicationDeadline.difference(DateTime.now()).inDays;
+
+    countdownText = countdown >= 0 ? "$countdown days" : "Early applications closed";
 
     models = classViewModel.wishlist;
 

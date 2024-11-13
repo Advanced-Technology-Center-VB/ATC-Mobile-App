@@ -1,6 +1,4 @@
-import 'package:atc_mobile_app/models/category_model.dart';
-
-class ClassModel {
+class ProgramModel {
   int id;
   String name;
   String description;
@@ -8,9 +6,9 @@ class ClassModel {
   String prerequisites;
   String category;
 
-  ClassModel({required this.id, required this.name, this.description = "", this.about = "", this.prerequisites = "", this.category = ""});
+  ProgramModel({required this.id, required this.name, this.description = "", this.about = "", this.prerequisites = "", this.category = ""});
 
-  factory ClassModel.fromJson(Map<String, dynamic> json) {
+  factory ProgramModel.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
         'id': int id,
@@ -19,17 +17,17 @@ class ClassModel {
         'about': String about,
         'prerequisites': String prerequisites,
         'category' : String category
-      } => ClassModel(id: id, name: name, description: description, about: about, prerequisites: prerequisites, category: category),
+      } => ProgramModel(id: id, name: name, description: description, about: about, prerequisites: prerequisites, category: category),
       _ => throw const FormatException("Failed to load Class")
     };
   }
 
-  factory ClassModel.fromJsonSimple(Map<String, dynamic> json) {
+  factory ProgramModel.fromJsonSimple(Map<String, dynamic> json) {
     return switch (json) {
       {
         'id': int id,
         'name': String name
-      } => ClassModel(id: id, name: name),
+      } => ProgramModel(id: id, name: name),
       _ => throw const FormatException("Failed to load Class")
     };
   }

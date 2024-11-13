@@ -1,26 +1,27 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/models/category_model.dart';
-import 'package:atc_mobile_app/models/class_model.dart';
+import 'package:atc_mobile_app/models/program_model.dart';
 import 'package:atc_mobile_app/models/event_model.dart';
 import 'package:atc_mobile_app/models/information_model.dart';
 import 'package:atc_mobile_app/models/testimony_model.dart';
 
+///This class is soley for offline testing of the app.
 class ApiDummyService extends ApiServiceContract {
-  List<ClassModel> classes = [
-    ClassModel(id: 1, name: "Class 1", description: "Description", about: "About", prerequisites: "Prerequisites", category: "Category 1"),
-    ClassModel(id: 2, name: "Class 2", description: "Description", about: "About", prerequisites: "Prerequisites", category: "Category 2"),
-    ClassModel(id: 3, name: "Class 3", description: "Description", about: "About", prerequisites: "Prerequisites", category: "Category 3")
+  List<ProgramModel> classes = [
+    ProgramModel(id: 1, name: "Class 1", description: "Description", about: "About", prerequisites: "Prerequisites", category: "Category 1"),
+    ProgramModel(id: 2, name: "Class 2", description: "Description", about: "About", prerequisites: "Prerequisites", category: "Category 2"),
+    ProgramModel(id: 3, name: "Class 3", description: "Description", about: "About", prerequisites: "Prerequisites", category: "Category 3")
   ];
 
   @override
-  Future<ClassModel> fetchClass(int id) async {
+  Future<ProgramModel> fetchClass(int id) async {
     return classes.where((model) => model.id == id).first;
   }
 
   @override
-  Future<List<ClassModel>> fetchClasses(int mask) async {
+  Future<List<ProgramModel>> fetchClasses(int mask) async {
     List<CategoryModel> categories = await fetchCategories();
-    List<ClassModel> result = List.empty(growable: true);
+    List<ProgramModel> result = List.empty(growable: true);
 
     if (mask == 0) {
       return classes;

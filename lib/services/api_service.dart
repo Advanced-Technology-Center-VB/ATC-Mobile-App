@@ -2,37 +2,38 @@ import 'dart:convert';
 
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/models/category_model.dart';
-import 'package:atc_mobile_app/models/class_model.dart';
+import 'package:atc_mobile_app/models/program_model.dart';
 import 'package:atc_mobile_app/models/event_model.dart';
 import 'package:atc_mobile_app/models/information_model.dart';
 import 'package:atc_mobile_app/models/testimony_model.dart';
 import 'package:http/http.dart' as http;
 
+///This class fetches data from the API and serializes it into Dart data structures.
 class ApiService extends ApiServiceContract {
   @override
-  Future<ClassModel> fetchClass(int id) async {
+  Future<ProgramModel> fetchClass(int id) async {
     final response = await http.get(Uri.parse("https://api.nextiswhatwedo.org/api/class?id=${id}"));
 
     if (response.statusCode == 200) {
       var map = jsonDecode(response.body) as List<dynamic>;
 
-      return ClassModel.fromJson(map.first);
+      return ProgramModel.fromJson(map.first);
     } else {
       throw Exception("Failed to load class.");
     }
   }
 
   @override
-  Future<List<ClassModel>> fetchClasses(int mask) async {
+  Future<List<ProgramModel>> fetchClasses(int mask) async {
     final response = await http.get(Uri.parse("https://api.nextiswhatwedo.org/api/classes?mask=${mask}"));
 
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body) as List<dynamic>;
 
-      List<ClassModel> classList = List.empty(growable: true);
+      List<ProgramModel> classList = List.empty(growable: true);
 
       for (var i = 0; i < json.length; i++) {
-        classList.add(ClassModel.fromJson(json[i] as Map<String, dynamic>));
+        classList.add(ProgramModel.fromJson(json[i] as Map<String, dynamic>));
       }
 
       return classList;
@@ -133,7 +134,7 @@ class ApiService extends ApiServiceContract {
 
       return InformationModel.fromJson(json);
     } else {
-      throw Exception("Failed to load events.");
+      throw Exception("Failed to fetch ATC information.");
     }
   }
   

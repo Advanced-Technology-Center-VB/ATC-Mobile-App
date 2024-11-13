@@ -27,8 +27,10 @@ class _DestinationHomeState extends State<DestinationHome> {
     return BaseView<HomeViewModel>(builder: (context, viewModel, _) {
       HomeViewModel vm = viewModel as HomeViewModel;
 
+      //Get events that are headlines to display in the top headline box.
       var headlines = vm.events.where((event) => event.isHeadline == true).toList();
 
+      //Check if there is an error or if the vm is still fetching data.
       if (!vm.isReady) {
         return Center(
           child: vm.error ? const ConnectionError() : const CircularProgressIndicator(),
@@ -44,10 +46,10 @@ class _DestinationHomeState extends State<DestinationHome> {
             pinned: false,
             stretchTriggerOffset: 100,
             stretch: true,
-            flexibleSpace: PageView.builder(
+            flexibleSpace: PageView.builder( //This PageView lets the user scroll horizontally between headlines.
               itemCount: headlines.length,
               itemBuilder: (context, index) => GestureDetector(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => _buildHeadlineWidget(headlines[index], vm.headlineImageCache[index]))),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => _buildExpandedHeadlineWidget(headlines[index], vm.headlineImageCache[index]))), //Displays the headline in an expanded view.
                 child: FlexibleSpaceBar(
                   collapseMode: CollapseMode.none,
                   background: ColorFiltered(
@@ -63,7 +65,7 @@ class _DestinationHomeState extends State<DestinationHome> {
                 
               ],
               titlePadding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-              title: ListView.custom(
+              title: ListView.custom( //TODO: This should NOT be a ListView please fix...
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 childrenDelegate: SliverChildListDelegate.fixed([
@@ -78,7 +80,7 @@ class _DestinationHomeState extends State<DestinationHome> {
                       fontSize: 14
                     ),
                   ),
-                  Center(
+                  Center( //This renders the dots at the bottom of the headline widget, I know it's pretty funky...
                     child: Wrap(
                       spacing: 4,
                       children: LazyWidget(
@@ -100,7 +102,6 @@ class _DestinationHomeState extends State<DestinationHome> {
               itemBuilder: (context, index) {
               return EventCard(context: context, model: vm.events[index], onAlertAdd: () => _showAlertAddModal(vm.events[index]));
             }),
-            //SliverList.builder(itemBuilder: (context, index) => Text(index.toString()))
           )
         ],
       );
@@ -185,7 +186,7 @@ class _DestinationHomeState extends State<DestinationHome> {
                           Checkbox(
                             value: mask >> i & 1 == 1,
                             onChanged: (change) => setCheckboxState(() {
-                              mask = (change == true ? mask + pow(2, i) : mask - pow(2, i)) as int;
+                              mask = (change == true ? mask + pow(2, i) : mask - pow(2, i)) as int; //See destination_app_hub.dart for more information about this method of storing checkboxes.
                             })),
                             Text(triggerLabels[i])
                         ],
@@ -236,7 +237,8 @@ class _DestinationHomeState extends State<DestinationHome> {
     );  
   }
 
-  Widget _buildHeadlineWidget(EventModel model, Image cachedImage) {
+  ///This method builds the expanded view for a headline when you select 'learn more'
+  Widget _buildExpandedHeadlineWidget(EventModel model, Image cachedImage) {
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(

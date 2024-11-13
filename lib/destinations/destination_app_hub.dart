@@ -20,7 +20,7 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
   void initState() {
     super.initState();
 
-    GetIt.instance.get<AppHubViewModel>().fetchData();
+    GetIt.instance.get<AppHubViewModel>().fetchData(); //Refetch data every time this destination is navigated to.
   }
 
   @override
@@ -28,7 +28,7 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
     return BaseView<AppHubViewModel>(builder: (context, viewModel, _) {
       var vm = viewModel as AppHubViewModel; // Get viewmodel of its own type.
 
-      return vm.ready ? Scaffold(
+      return vm.ready ? Scaffold( //Check if the viewmodel has finished fetching data, if not display progress indicator.
         body: CustomScrollView(
           slivers: [
             SliverAppBar.large(
@@ -146,13 +146,13 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
               itemCount: vm.info!.applicationChecklist.length,
               itemBuilder: (_, index) => CheckboxListTile(
                 title: Text(vm.info!.applicationChecklist[index], softWrap: true),
-                value: vm.checklistMask >> index & 1 == 1, 
+                value: vm.checklistMask >> index & 1 == 1, //Checklist data is stored by a single number value, I do this by shifting the bits and checking if a certain bit is a 1 or a 0.
                 onChanged: (val) {
                   setState(() {
                     if (val ?? false) {
-                    vm.checklistMask += pow(2, index) as int;
+                    vm.checklistMask += pow(2, index) as int; //Adding 2^index sets the bit in the position of index to 1.
                   } else {
-                    vm.checklistMask -= pow(2, index) as int;
+                    vm.checklistMask -= pow(2, index) as int; //Subtracting 2^index sets the bit in the position of index to 0.
                   }
                   });
                 }
@@ -165,7 +165,7 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            await launchUrl(Uri.parse(vm.info!.applicationUrl));
+            await launchUrl(Uri.parse(vm.info!.applicationUrl)); //Launch browser with application url.
           },
           label: const Text("Apply now"),
           icon: const Icon(Icons.edit),
