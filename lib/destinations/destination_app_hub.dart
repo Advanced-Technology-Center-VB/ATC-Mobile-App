@@ -98,38 +98,6 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
             ),
             const SliverPadding(
               padding: EdgeInsets.all(16),
-              sliver: SliverToBoxAdapter(child: Text("Application checklist", style: TextStyle(
-                fontSize: 24
-              ))), // Use SliverToBoxAdapter to use add a normal widget.
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverList.builder(
-                itemCount: vm.info!.applicationChecklist.length,
-                itemBuilder: (_, index) => Flex(
-                  direction: Axis.horizontal,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(vm.info!.applicationChecklist[index], softWrap: true),
-                    const Spacer(),
-                    Checkbox(
-                      value: vm.checklistMask >> index & 1 == 1, 
-                      onChanged: (val) {
-                        setState(() {
-                          if (val ?? false) {
-                          vm.checklistMask += pow(2, index) as int;
-                        } else {
-                          vm.checklistMask -= pow(2, index) as int;
-                        }
-                        });
-                      }
-                    )
-                  ],
-                )
-              )
-            ),
-            const SliverPadding(
-              padding: EdgeInsets.all(16),
               sliver: SliverToBoxAdapter(child: Text("My wishlist", style: TextStyle(
                 fontSize: 24
               ))), // Use SliverToBoxAdapter to use add a normal widget.
@@ -167,6 +135,28 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                   softWrap: true
                 ) 
               )     
+            ),
+            const SliverPadding(
+              padding: EdgeInsets.all(16),
+              sliver: SliverToBoxAdapter(child: Text("Application checklist", style: TextStyle(
+                fontSize: 24
+              ))), // Use SliverToBoxAdapter to use add a normal widget.
+            ),
+            SliverList.builder(
+              itemCount: vm.info!.applicationChecklist.length,
+              itemBuilder: (_, index) => CheckboxListTile(
+                title: Text(vm.info!.applicationChecklist[index], softWrap: true),
+                value: vm.checklistMask >> index & 1 == 1, 
+                onChanged: (val) {
+                  setState(() {
+                    if (val ?? false) {
+                    vm.checklistMask += pow(2, index) as int;
+                  } else {
+                    vm.checklistMask -= pow(2, index) as int;
+                  }
+                  });
+                }
+              )
             ),
             const SliverToBoxAdapter(
               child: SizedBox(height: 100),
