@@ -1,4 +1,4 @@
-package com.example.atc_mobile_app
+package com.vbschools.atcnext
 
 import io.flutter.embedding.android.FlutterActivity
 
