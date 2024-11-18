@@ -33,13 +33,13 @@ class _RouteSplashState extends State<RouteSplash> {
   /// Number of preprocesses that must be completed to continue.
   static const _numPreprocesses = 2;
 
-  FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
+  //FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
 
   GetIt getIt = GetIt.instance;
 
   _registerServices() {
     getIt.registerSingleton<ApiServiceContract>(ApiService());
-    getIt.registerSingleton<NotificationServiceContract>(NotificationService());
+    //getIt.registerSingleton<NotificationServiceContract>(NotificationService());
     getIt.registerSingleton<LocalStorageServiceContract>(LocalStorageService());
 
     setState(() {
@@ -65,7 +65,7 @@ class _RouteSplashState extends State<RouteSplash> {
     _registerServices();
     _registerViewModels();
 
-    getIt.registerSingleton<FlutterLocalNotificationsPlugin>(notificationsPlugin);
+    //getIt.registerSingleton<FlutterLocalNotificationsPlugin>(notificationsPlugin);
   }
 
   @override

@@ -27,18 +27,27 @@ class ProgramViewModel extends BaseModel {
     fetchWishlist().whenComplete(() => notifyListeners());
   }
 
-  void fetchData() async {
+  void reset() {
+    images = List.empty(growable: true);
+    testimonies = List.empty(growable: true);
+  }
+
+  Future<void> fetchData() async {
     ready = false;
     error = false;
+
+    notifyListeners();
 
     try {
       fetchTestimonies();
       fetchImages();
+
+      ready = true;
     } catch (_) {
       error = true;
     }
-
-    ready = true;
+    
+    notifyListeners();
   }
 
   void fetchTestimonies() async {
@@ -57,8 +66,6 @@ class ProgramViewModel extends BaseModel {
     var urls = await api.fetchImages(model.id);
 
     images = urls.map((url) => Image.network(url, fit: BoxFit.cover)).toList();
-
-    notifyListeners();
   }
 
   Future<void> fetchWishlist() async {

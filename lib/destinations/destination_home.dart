@@ -247,7 +247,7 @@ class _DestinationHomeState extends State<DestinationHome> {
             SliverAppBar(
               title: Text(model.title),
               actions: [
-                Platform.isAndroid ? IconButton(
+                false ? IconButton( //Temporarily disabled
                   onPressed: () => _showAlertAddModal(model), 
                   icon: const Icon(Icons.add_alert_outlined)
                 ) : const SizedBox.shrink()

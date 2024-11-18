@@ -54,7 +54,7 @@ class EventCard extends StatelessWidget {
                 ),
               ), 
             ),
-            Platform.isAndroid ? IconButton(
+            false ? IconButton( //I just want to disable this for now
                 onPressed: onAlertAdd, 
                 icon: const Icon(Icons.add_alert_outlined)
             ) : const SizedBox.shrink()
