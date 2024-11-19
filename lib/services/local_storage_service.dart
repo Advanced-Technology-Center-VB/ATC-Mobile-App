@@ -62,6 +62,6 @@ class LocalStorageService extends LocalStorageServiceContract {
   Future<void> writeApplicationChecklist(int mask) async {
     var prefs = await SharedPreferences.getInstance();
 
-    prefs.setInt("appChecklist", mask);
+    await prefs.setInt("appChecklist", mask);
   }
 }

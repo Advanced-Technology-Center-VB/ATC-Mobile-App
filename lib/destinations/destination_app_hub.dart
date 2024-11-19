@@ -24,6 +24,13 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
   }
 
   @override
+  void deactivate() {
+    super.deactivate();
+
+    GetIt.instance.get<AppHubViewModel>().updateChecklist();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseView<AppHubViewModel>(builder: (context, viewModel, _) {
       var vm = viewModel as AppHubViewModel; // Get viewmodel of its own type.
@@ -150,10 +157,10 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                 onChanged: (val) {
                   setState(() {
                     if (val ?? false) {
-                    vm.checklistMask += pow(2, index) as int; //Adding 2^index sets the bit in the position of index to 1.
-                  } else {
-                    vm.checklistMask -= pow(2, index) as int; //Subtracting 2^index sets the bit in the position of index to 0.
-                  }
+                      vm.checklistMask += pow(2, index) as int; //Adding 2^index sets the bit in the position of index to 1.
+                    } else {
+                      vm.checklistMask -= pow(2, index) as int; //Subtracting 2^index sets the bit in the position of index to 0.
+                    }
                   });
                 }
               )

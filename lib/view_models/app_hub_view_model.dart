@@ -1,4 +1,5 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
+import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
 import 'package:atc_mobile_app/models/program_model.dart';
 import 'package:atc_mobile_app/models/information_model.dart';
 import 'package:atc_mobile_app/provider/base_model.dart';
@@ -12,6 +13,8 @@ class AppHubViewModel extends BaseModel {
 
   int checklistMask = 0;
 
+  var localStorage = GetIt.instance.get<LocalStorageServiceContract>();
+
   bool ready = false; // This value is is affected when fetchData() is called. It becomes false starting execution, and is flipped to true when the function completes.
 
   void fetchData() async {
@@ -20,6 +23,8 @@ class AppHubViewModel extends BaseModel {
 
     ready = false;
     notifyListeners();
+
+    checklistMask = await localStorage.getApplicationChecklist();
 
     info = await api.fetchAtcInformation();
 
@@ -31,5 +36,9 @@ class AppHubViewModel extends BaseModel {
 
     ready = true;
     notifyListeners();
+  }
+
+  void updateChecklist() async {
+    await localStorage.writeApplicationChecklist(checklistMask);
   }
 }
