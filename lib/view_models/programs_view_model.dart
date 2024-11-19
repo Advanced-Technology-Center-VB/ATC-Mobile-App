@@ -48,6 +48,8 @@ class ProgramsViewModel extends BaseModel {
       return List<ProgramModel>.empty();
     });
 
+    classes.sort((a, b) => a.name.compareTo(b.name));
+
     notifyListeners();
   }
 
