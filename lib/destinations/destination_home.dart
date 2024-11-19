@@ -7,7 +7,6 @@ import 'package:atc_mobile_app/models/event_model.dart';
 import 'package:atc_mobile_app/provider/base_view.dart';
 import 'package:atc_mobile_app/view_models/home_view_model.dart';
 import 'package:atc_mobile_app/widgets/connection_error.dart';
-import 'package:atc_mobile_app/widgets/event_card.dart';
 import 'package:atc_mobile_app/widgets/lazy_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -99,14 +98,51 @@ class _DestinationHomeState extends State<DestinationHome> {
             sliver: SliverList.builder(
               itemCount: vm.events.length,
               itemBuilder: (context, index) {
-              return EventCard(context: context, model: vm.events[index], onAlertAdd: () => _showAlertAddModal(vm.events[index]));
-            }),
+                var model = vm.events[index];
+
+                return ListTile(
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        model.startTimestamp.day.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 22,
+                          height: 1,
+                          color: Theme.of(context).colorScheme.onSurface
+                        ),
+                      ),
+                      Text(
+                        DateFormat.MMM().format(model.startTimestamp).toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant
+                        )
+                      ),
+                    ],
+                  ),
+                  title: Text(model.title, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 2)),
+                  subtitle: Wrap(
+                    spacing: 6,  
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      const Icon(Icons.schedule, size: 16),
+                      Text(TimeOfDay.fromDateTime(model.startTimestamp).format(context)),
+                      const Text("•"),
+                      const Icon(Icons.location_on_outlined, size: 16),
+                      Text(model.location)
+                    ],
+                  ),
+                );
+              }
+            ),
           )
         ],
       );
     });
   }
-
   void _showAlertAddModal(EventModel model) {
     showModalBottomSheet(
       showDragHandle: true,
