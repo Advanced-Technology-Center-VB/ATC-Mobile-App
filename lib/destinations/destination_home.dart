@@ -1,5 +1,6 @@
 // Home destination
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:atc_mobile_app/contracts/notification_service_contract.dart';
@@ -20,6 +21,37 @@ class DestinationHome extends StatefulWidget {
 }
 
 class _DestinationHomeState extends State<DestinationHome> {
+  final _headlineScrollController = PageController();
+  var _currentHeadline = 0;
+
+  Timer? _headlineScrollTimer;
+
+  @override void initState() {
+    super.initState();
+
+    _startScrollTimer();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+
+    _headlineScrollTimer!.cancel();
+  }
+
+  void _startScrollTimer() {
+    _headlineScrollTimer = Timer.periodic(
+      const Duration(seconds: 10),
+      (_) {
+        _headlineScrollController.animateToPage(
+          ++_currentHeadline, 
+          duration: const Duration(seconds: 1), 
+          curve: Curves.easeInOutCirc
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(builder: (context, viewModel, _) {
@@ -45,9 +77,10 @@ class _DestinationHomeState extends State<DestinationHome> {
             stretchTriggerOffset: 100,
             stretch: true,
             flexibleSpace: PageView.builder( //This PageView lets the user scroll horizontally between headlines.
-              itemCount: headlines.length,
+              controller: _headlineScrollController,
+              onPageChanged: (value) => _currentHeadline = value,
               itemBuilder: (context, index) => GestureDetector(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => _buildExpandedHeadlineWidget(headlines[index], vm.headlineImageCache[index]))), //Displays the headline in an expanded view.
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => _buildExpandedHeadlineWidget(headlines[index % headlines.length], vm.headlineImageCache[index % vm.headlineImageCache.length]))), //Displays the headline in an expanded view.
                 child: FlexibleSpaceBar(
                   collapseMode: CollapseMode.none,
                   background: ColorFiltered(
@@ -55,19 +88,16 @@ class _DestinationHomeState extends State<DestinationHome> {
                     Color.fromARGB(95, 0, 0, 0),
                      BlendMode.darken
                    ),
-                   child: vm.headlineImageCache[index]
+                   child: vm.headlineImageCache[index % vm.headlineImageCache.length]
               ),
               stretchModes: const [
                 StretchMode.zoomBackground,
                 StretchMode.blurBackground,
-                
               ],
               titlePadding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-              title: ListView.custom( //TODO: This should NOT be a ListView please fix...
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                childrenDelegate: SliverChildListDelegate.fixed([
-                  Text(headlines[index].headlineTitle ?? headlines[index].title, style: const TextStyle(
+              title: Wrap(
+                children: [
+                  Text(headlines[index % headlines.length].headlineTitle ?? headlines[index % headlines.length].title, style: const TextStyle(
                     color: Colors.white
                   )),
                   const Text(
@@ -83,14 +113,13 @@ class _DestinationHomeState extends State<DestinationHome> {
                       spacing: 4,
                       children: LazyWidget(
                         count: headlines.length,
-                        builder: (selection) => Container(width: 5, height: 5, decoration: BoxDecoration(color: selection == index ? Colors.white : const Color.fromARGB(121, 255, 255, 255), borderRadius: BorderRadius.circular(100)),)
+                        builder: (selection) => Container(width: 5, height: 5, decoration: BoxDecoration(color: selection == index % headlines.length ? Colors.white : const Color.fromARGB(121, 255, 255, 255), borderRadius: BorderRadius.circular(100)),)
                       ).getList(),
                     ),
                   )
-                ]),
+                ],
               )
-            )),
-              
+            )),   
             )
           ),
           SliverPadding(
