@@ -1,6 +1,7 @@
 import 'package:atc_mobile_app/destinations/destination_app_hub.dart';
 import 'package:atc_mobile_app/destinations/destination_home.dart';
 import 'package:atc_mobile_app/destinations/destination_programs.dart';
+import 'package:atc_mobile_app/route/route_test.dart';
 import 'package:flutter/material.dart';
 
 /// This route describes the main functionality of the app.

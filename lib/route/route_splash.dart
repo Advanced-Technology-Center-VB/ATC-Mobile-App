@@ -2,6 +2,7 @@ import 'package:atc_mobile_app/contracts/api_service_contract.dart';
 import 'package:atc_mobile_app/contracts/notification_service_contract.dart';
 import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
 import 'package:atc_mobile_app/route/route_main.dart';
+import 'package:atc_mobile_app/route/route_test.dart';
 import 'package:atc_mobile_app/services/api_service.dart';
 import 'package:atc_mobile_app/services/notification_service.dart';
 import 'package:atc_mobile_app/services/local_storage_service.dart';
@@ -71,7 +72,7 @@ class _RouteSplashState extends State<RouteSplash> {
   @override
   Widget build(BuildContext context) {
     return _preprocessProgress == _numPreprocesses 
-      ? const RouteMain() 
+      ? const RouteTest() 
       : const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
