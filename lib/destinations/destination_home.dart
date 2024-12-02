@@ -29,14 +29,14 @@ class _DestinationHomeState extends State<DestinationHome> {
   @override void initState() {
     super.initState();
 
-    _startScrollTimer();
+    if (GetIt.instance.get<HomeViewModel>().events.where((e) => e.isHeadline).length > 1) _startScrollTimer();
   }
 
   @override
   void deactivate() {
     super.deactivate();
 
-    _headlineScrollTimer!.cancel();
+    if (_headlineScrollTimer != null) _headlineScrollTimer!.cancel();
   }
 
   void _startScrollTimer() {

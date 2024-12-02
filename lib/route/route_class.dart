@@ -4,7 +4,6 @@ import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
 import 'package:atc_mobile_app/models/program_model.dart';
 import 'package:atc_mobile_app/provider/base_view.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
-import 'package:atc_mobile_app/widgets/image_carousel.dart';
 import 'package:atc_mobile_app/widgets/lazy_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -160,8 +159,19 @@ class _RouteClassState extends State<RouteClass> {
                   Text("About this program", style: headerStyle),
                   const SizedBox(height: 16),
                   Text(widget.classModel.about),
-                  const SizedBox(height: 16),
-                  Text("Prerequisites: ${widget.classModel.prerequisites}"),
+                  <Widget>() {
+                    if (widget.classModel.prerequisites.isNotEmpty) {
+                      return Flex(
+                        direction: Axis.vertical,
+                        children: [
+                          const SizedBox(height: 16),
+                          Text("Prerequisites: ${widget.classModel.prerequisites}"),
+                        ],
+                      ) as Widget;
+                    }
+
+                    return const SizedBox(width: 0) as Widget;
+                  }.call(),
                   const SizedBox(height: 16),
                   Text("Students in action", style: headerStyle),
                   const SizedBox(height: 16),
@@ -192,15 +202,7 @@ class _RouteClassState extends State<RouteClass> {
                     itemCount: vm.testimonies.length,
                     itemBuilder: (context, index) => Wrap(
                       children: [
-                        Wrap(
-                          direction: Axis.horizontal,
-                          spacing: 6,
-                          children: [
-                            Text(vm.testimonies[index].studentName, style: textVariant),
-                            Text("•", style: textVariant,),
-                            Text("Enrolled for ${_formatEnrollment(vm.testimonies[index].yearsAttended)}", style: textVariant,)
-                          ],
-                        ),
+                        Text(vm.testimonies[index].studentName, style: textVariant),
                         Text(vm.testimonies[index].statement),
                       ]),
                       separatorBuilder: (_,__) => Divider(thickness: 1, color: Theme.of(context).colorScheme.outlineVariant),

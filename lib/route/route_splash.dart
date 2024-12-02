@@ -1,17 +1,16 @@
 import 'package:atc_mobile_app/contracts/api_service_contract.dart';
-import 'package:atc_mobile_app/contracts/notification_service_contract.dart';
+//import 'package:atc_mobile_app/contracts/notification_service_contract.dart';
 import 'package:atc_mobile_app/contracts/local_storage_service_contract.dart';
 import 'package:atc_mobile_app/route/route_main.dart';
-import 'package:atc_mobile_app/route/route_test.dart';
 import 'package:atc_mobile_app/services/api_service.dart';
-import 'package:atc_mobile_app/services/notification_service.dart';
+//import 'package:atc_mobile_app/services/notification_service.dart';
 import 'package:atc_mobile_app/services/local_storage_service.dart';
 import 'package:atc_mobile_app/view_models/app_hub_view_model.dart';
 import 'package:atc_mobile_app/view_models/class_view_model.dart';
 import 'package:atc_mobile_app/view_models/home_view_model.dart';
 import 'package:atc_mobile_app/view_models/programs_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 
 //TODO: Maybe refactor this into the main class???
@@ -72,7 +71,7 @@ class _RouteSplashState extends State<RouteSplash> {
   @override
   Widget build(BuildContext context) {
     return _preprocessProgress == _numPreprocesses 
-      ? const RouteTest() 
+      ? const RouteMain() 
       : const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),

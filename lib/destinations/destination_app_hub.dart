@@ -92,7 +92,10 @@ class _DestionationAppHubState extends State<DestinationAppHub> {
                           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
-                            color: Theme.of(context).colorScheme.secondary
+                            color: Theme.of(context).colorScheme.secondary,
+                            boxShadow: [
+                              BoxShadow(color: const Color.fromARGB(94, 0, 0, 0), offset: Offset.fromDirection(-4.713, 3), blurRadius: 4)
+                            ]
                           ),
                           child: Text(vm.countdownText, style: TextStyle(
                             color: Theme.of(context).colorScheme.onSecondary
